@@ -260,6 +260,7 @@ func (s *service) Serve(ctx context.Context) error {
 	restMux.HandlerFunc(http.MethodGet, "/rest/db/localchanged", s.getDBLocalChanged)         // folder [perpage] [page]
 	restMux.HandlerFunc(http.MethodGet, "/rest/db/status", s.getDBStatus)                     // folder
 	restMux.HandlerFunc(http.MethodGet, "/rest/db/browse", s.getDBBrowse)                     // folder [prefix] [dirsonly] [levels]
+	restMux.HandlerFunc(http.MethodGet, "/rest/flosync/stream", s.getFloSyncStream)           // folder file [offset] [length]
 	restMux.HandlerFunc(http.MethodGet, "/rest/folder/versions", s.getFolderVersions)         // folder
 	restMux.HandlerFunc(http.MethodGet, "/rest/folder/errors", s.getFolderErrors)             // folder [perpage] [page]
 	restMux.HandlerFunc(http.MethodGet, "/rest/folder/pullerrors", s.getFolderErrors)         // folder (deprecated)
@@ -291,6 +292,7 @@ func (s *service) Serve(ctx context.Context) error {
 	restMux.HandlerFunc(http.MethodPost, "/rest/db/override", s.postDBOverride)                  // folder
 	restMux.HandlerFunc(http.MethodPost, "/rest/db/revert", s.postDBRevert)                      // folder
 	restMux.HandlerFunc(http.MethodPost, "/rest/db/scan", s.postDBScan)                          // folder [sub...] [delay]
+	restMux.HandlerFunc(http.MethodPost, "/rest/flosync/delete", s.postFloSyncDelete)            // folder file
 	restMux.HandlerFunc(http.MethodPost, "/rest/folder/versions", s.postFolderVersionsRestore)   // folder <body>
 	restMux.HandlerFunc(http.MethodPost, "/rest/system/error", s.postSystemError)                // <body>
 	restMux.HandlerFunc(http.MethodPost, "/rest/system/error/clear", s.postSystemErrorClear)     // -

@@ -100,15 +100,15 @@ type Model struct {
 	connectedToReturnsOnCall map[int]struct {
 		result1 bool
 	}
-	ConnectionStatsStub        func() map[string]interface{}
+	ConnectionStatsStub        func() map[string]any
 	connectionStatsMutex       sync.RWMutex
 	connectionStatsArgsForCall []struct {
 	}
 	connectionStatsReturns struct {
-		result1 map[string]interface{}
+		result1 map[string]any
 	}
 	connectionStatsReturnsOnCall map[int]struct {
-		result1 map[string]interface{}
+		result1 map[string]any
 	}
 	CurrentFolderFileStub        func(string, string) (protocol.FileInfo, bool, error)
 	currentFolderFileMutex       sync.RWMutex
@@ -209,6 +209,21 @@ type Model struct {
 	}
 	downloadProgressReturnsOnCall map[int]struct {
 		result1 error
+	}
+	FloSyncDeleteStub        func(context.Context, string, string) (model.FloSyncDeleteResult, error)
+	floSyncDeleteMutex       sync.RWMutex
+	floSyncDeleteArgsForCall []struct {
+		arg1 context.Context
+		arg2 string
+		arg3 string
+	}
+	floSyncDeleteReturns struct {
+		result1 model.FloSyncDeleteResult
+		result2 error
+	}
+	floSyncDeleteReturnsOnCall map[int]struct {
+		result1 model.FloSyncDeleteResult
+		result2 error
 	}
 	FolderErrorsStub        func(string) ([]model.FileError, error)
 	folderErrorsMutex       sync.RWMutex
@@ -430,6 +445,23 @@ type Model struct {
 	}
 	onHelloReturnsOnCall map[int]struct {
 		result1 error
+	}
+	OpenFloSyncStreamStub        func(context.Context, string, string, int64, int64) (model.FloSyncStream, error)
+	openFloSyncStreamMutex       sync.RWMutex
+	openFloSyncStreamArgsForCall []struct {
+		arg1 context.Context
+		arg2 string
+		arg3 string
+		arg4 int64
+		arg5 int64
+	}
+	openFloSyncStreamReturns struct {
+		result1 model.FloSyncStream
+		result2 error
+	}
+	openFloSyncStreamReturnsOnCall map[int]struct {
+		result1 model.FloSyncStream
+		result2 error
 	}
 	OverrideStub        func(string)
 	overrideMutex       sync.RWMutex
@@ -1092,7 +1124,7 @@ func (fake *Model) ConnectedToReturnsOnCall(i int, result1 bool) {
 	}{result1}
 }
 
-func (fake *Model) ConnectionStats() map[string]interface{} {
+func (fake *Model) ConnectionStats() map[string]any {
 	fake.connectionStatsMutex.Lock()
 	ret, specificReturn := fake.connectionStatsReturnsOnCall[len(fake.connectionStatsArgsForCall)]
 	fake.connectionStatsArgsForCall = append(fake.connectionStatsArgsForCall, struct {
@@ -1116,32 +1148,32 @@ func (fake *Model) ConnectionStatsCallCount() int {
 	return len(fake.connectionStatsArgsForCall)
 }
 
-func (fake *Model) ConnectionStatsCalls(stub func() map[string]interface{}) {
+func (fake *Model) ConnectionStatsCalls(stub func() map[string]any) {
 	fake.connectionStatsMutex.Lock()
 	defer fake.connectionStatsMutex.Unlock()
 	fake.ConnectionStatsStub = stub
 }
 
-func (fake *Model) ConnectionStatsReturns(result1 map[string]interface{}) {
+func (fake *Model) ConnectionStatsReturns(result1 map[string]any) {
 	fake.connectionStatsMutex.Lock()
 	defer fake.connectionStatsMutex.Unlock()
 	fake.ConnectionStatsStub = nil
 	fake.connectionStatsReturns = struct {
-		result1 map[string]interface{}
+		result1 map[string]any
 	}{result1}
 }
 
-func (fake *Model) ConnectionStatsReturnsOnCall(i int, result1 map[string]interface{}) {
+func (fake *Model) ConnectionStatsReturnsOnCall(i int, result1 map[string]any) {
 	fake.connectionStatsMutex.Lock()
 	defer fake.connectionStatsMutex.Unlock()
 	fake.ConnectionStatsStub = nil
 	if fake.connectionStatsReturnsOnCall == nil {
 		fake.connectionStatsReturnsOnCall = make(map[int]struct {
-			result1 map[string]interface{}
+			result1 map[string]any
 		})
 	}
 	fake.connectionStatsReturnsOnCall[i] = struct {
-		result1 map[string]interface{}
+		result1 map[string]any
 	}{result1}
 }
 
@@ -1620,6 +1652,72 @@ func (fake *Model) DownloadProgressReturnsOnCall(i int, result1 error) {
 	fake.downloadProgressReturnsOnCall[i] = struct {
 		result1 error
 	}{result1}
+}
+
+func (fake *Model) FloSyncDelete(arg1 context.Context, arg2 string, arg3 string) (model.FloSyncDeleteResult, error) {
+	fake.floSyncDeleteMutex.Lock()
+	ret, specificReturn := fake.floSyncDeleteReturnsOnCall[len(fake.floSyncDeleteArgsForCall)]
+	fake.floSyncDeleteArgsForCall = append(fake.floSyncDeleteArgsForCall, struct {
+		arg1 context.Context
+		arg2 string
+		arg3 string
+	}{arg1, arg2, arg3})
+	stub := fake.FloSyncDeleteStub
+	fakeReturns := fake.floSyncDeleteReturns
+	fake.recordInvocation("FloSyncDelete", []interface{}{arg1, arg2, arg3})
+	fake.floSyncDeleteMutex.Unlock()
+	if stub != nil {
+		return stub(arg1, arg2, arg3)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *Model) FloSyncDeleteCallCount() int {
+	fake.floSyncDeleteMutex.RLock()
+	defer fake.floSyncDeleteMutex.RUnlock()
+	return len(fake.floSyncDeleteArgsForCall)
+}
+
+func (fake *Model) FloSyncDeleteCalls(stub func(context.Context, string, string) (model.FloSyncDeleteResult, error)) {
+	fake.floSyncDeleteMutex.Lock()
+	defer fake.floSyncDeleteMutex.Unlock()
+	fake.FloSyncDeleteStub = stub
+}
+
+func (fake *Model) FloSyncDeleteArgsForCall(i int) (context.Context, string, string) {
+	fake.floSyncDeleteMutex.RLock()
+	defer fake.floSyncDeleteMutex.RUnlock()
+	argsForCall := fake.floSyncDeleteArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
+}
+
+func (fake *Model) FloSyncDeleteReturns(result1 model.FloSyncDeleteResult, result2 error) {
+	fake.floSyncDeleteMutex.Lock()
+	defer fake.floSyncDeleteMutex.Unlock()
+	fake.FloSyncDeleteStub = nil
+	fake.floSyncDeleteReturns = struct {
+		result1 model.FloSyncDeleteResult
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *Model) FloSyncDeleteReturnsOnCall(i int, result1 model.FloSyncDeleteResult, result2 error) {
+	fake.floSyncDeleteMutex.Lock()
+	defer fake.floSyncDeleteMutex.Unlock()
+	fake.FloSyncDeleteStub = nil
+	if fake.floSyncDeleteReturnsOnCall == nil {
+		fake.floSyncDeleteReturnsOnCall = make(map[int]struct {
+			result1 model.FloSyncDeleteResult
+			result2 error
+		})
+	}
+	fake.floSyncDeleteReturnsOnCall[i] = struct {
+		result1 model.FloSyncDeleteResult
+		result2 error
+	}{result1, result2}
 }
 
 func (fake *Model) FolderErrors(arg1 string) ([]model.FileError, error) {
@@ -2649,6 +2747,74 @@ func (fake *Model) OnHelloReturnsOnCall(i int, result1 error) {
 	fake.onHelloReturnsOnCall[i] = struct {
 		result1 error
 	}{result1}
+}
+
+func (fake *Model) OpenFloSyncStream(arg1 context.Context, arg2 string, arg3 string, arg4 int64, arg5 int64) (model.FloSyncStream, error) {
+	fake.openFloSyncStreamMutex.Lock()
+	ret, specificReturn := fake.openFloSyncStreamReturnsOnCall[len(fake.openFloSyncStreamArgsForCall)]
+	fake.openFloSyncStreamArgsForCall = append(fake.openFloSyncStreamArgsForCall, struct {
+		arg1 context.Context
+		arg2 string
+		arg3 string
+		arg4 int64
+		arg5 int64
+	}{arg1, arg2, arg3, arg4, arg5})
+	stub := fake.OpenFloSyncStreamStub
+	fakeReturns := fake.openFloSyncStreamReturns
+	fake.recordInvocation("OpenFloSyncStream", []interface{}{arg1, arg2, arg3, arg4, arg5})
+	fake.openFloSyncStreamMutex.Unlock()
+	if stub != nil {
+		return stub(arg1, arg2, arg3, arg4, arg5)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *Model) OpenFloSyncStreamCallCount() int {
+	fake.openFloSyncStreamMutex.RLock()
+	defer fake.openFloSyncStreamMutex.RUnlock()
+	return len(fake.openFloSyncStreamArgsForCall)
+}
+
+func (fake *Model) OpenFloSyncStreamCalls(stub func(context.Context, string, string, int64, int64) (model.FloSyncStream, error)) {
+	fake.openFloSyncStreamMutex.Lock()
+	defer fake.openFloSyncStreamMutex.Unlock()
+	fake.OpenFloSyncStreamStub = stub
+}
+
+func (fake *Model) OpenFloSyncStreamArgsForCall(i int) (context.Context, string, string, int64, int64) {
+	fake.openFloSyncStreamMutex.RLock()
+	defer fake.openFloSyncStreamMutex.RUnlock()
+	argsForCall := fake.openFloSyncStreamArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3, argsForCall.arg4, argsForCall.arg5
+}
+
+func (fake *Model) OpenFloSyncStreamReturns(result1 model.FloSyncStream, result2 error) {
+	fake.openFloSyncStreamMutex.Lock()
+	defer fake.openFloSyncStreamMutex.Unlock()
+	fake.OpenFloSyncStreamStub = nil
+	fake.openFloSyncStreamReturns = struct {
+		result1 model.FloSyncStream
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *Model) OpenFloSyncStreamReturnsOnCall(i int, result1 model.FloSyncStream, result2 error) {
+	fake.openFloSyncStreamMutex.Lock()
+	defer fake.openFloSyncStreamMutex.Unlock()
+	fake.OpenFloSyncStreamStub = nil
+	if fake.openFloSyncStreamReturnsOnCall == nil {
+		fake.openFloSyncStreamReturnsOnCall = make(map[int]struct {
+			result1 model.FloSyncStream
+			result2 error
+		})
+	}
+	fake.openFloSyncStreamReturnsOnCall[i] = struct {
+		result1 model.FloSyncStream
+		result2 error
+	}{result1, result2}
 }
 
 func (fake *Model) Override(arg1 string) {

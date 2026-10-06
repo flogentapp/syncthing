@@ -66,6 +66,9 @@ type service interface {
 	GetStatistics() (stats.FolderStatistics, error)
 
 	getState() (folderState, time.Time, error)
+
+	// FloSync fork: announce a delete for items this device does not hold
+	floSyncDelete(ctx context.Context, name string) (FloSyncDeleteResult, error)
 }
 
 type Availability struct {
@@ -130,6 +133,10 @@ type Model interface {
 	GlobalDirectoryTree(folder, prefix string, levels int, dirsOnly bool) ([]*TreeEntry, error)
 
 	RequestGlobal(ctx context.Context, deviceID protocol.DeviceID, folder, name string, blockNo int, offset int64, size int, hash []byte, fromTemporary bool) ([]byte, error)
+
+	// FloSync fork additions, see flosync.go
+	OpenFloSyncStream(ctx context.Context, folder, name string, offset, length int64) (FloSyncStream, error)
+	FloSyncDelete(ctx context.Context, folder, name string) (FloSyncDeleteResult, error)
 }
 
 type model struct {

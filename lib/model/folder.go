@@ -793,6 +793,13 @@ outer:
 			switch ignored := f.ignores.Match(fi.Name).IsIgnored(); {
 			case fi.IsIgnored() && ignored:
 				continue
+			case !fi.IsIgnored() && !fi.IsInvalid() && fi.IsDeleted() && ignored:
+				// FloSync fork: a valid delete record stays valid when its
+				// name matches an ignore pattern. Turning it into an ignored
+				// (invalid) record would take back a delete that was just
+				// announced for an item this device holds only as ignored
+				// (/rest/flosync/delete) before every peer has applied it.
+				continue
 			case !fi.IsIgnored() && ignored:
 				// File was not ignored at last pass but has been ignored.
 				if fi.IsDirectory() {
